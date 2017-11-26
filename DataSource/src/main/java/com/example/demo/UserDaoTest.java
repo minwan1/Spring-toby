@@ -41,12 +41,10 @@ public class UserDaoTest {
 	
 	@Before
 	public void setUp(){
-//		DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost:3306/wan", "root", "1234", true);
 	}
 	
 	@Test
 	public void addAndGet() throws SQLException{
-//		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
 		dao.add();
 		assertThat("test",is("test"));
 	}

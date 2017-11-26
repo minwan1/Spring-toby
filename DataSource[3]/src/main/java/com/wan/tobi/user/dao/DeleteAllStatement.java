@@ -1,4 +1,4 @@
-package com.example.demo.user.dao;
+package com.wan.tobi.user.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

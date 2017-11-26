@@ -5,11 +5,11 @@ import java.sql.SQLException;
 public class UserDao {
 	
 	public void add(){
-		System.out.println("zxcv");
+		System.out.println("add");
 	}
 	
 	public void get(){
-		System.out.println("asdf");
+		System.out.println("get");
 	}
 	
 	public void deleteAll() throws SQLException{

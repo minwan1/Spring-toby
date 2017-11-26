@@ -1,4 +1,4 @@
-package com.example.demo.user.dao;
+package com.wan.tobi.user.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.wan.tobi.user.User;
 
 
 public class UserDao {
@@ -38,17 +40,14 @@ public class UserDao {
 	}
 	
 	
-	public void add(){
-		System.out.println("zxcv");
+	public void add(User user) throws SQLException{
+		StatementStrategy st = new AddStatement(user);
+		jdbcContextWithStatementStrategy(st);
+		
 	}
 
-	
-	
-	
-	
-	
 	public void get(){
-		System.out.println("asdf");
+		System.out.println("get()");
 	}
 	
 	public void getCount() throws SQLException{

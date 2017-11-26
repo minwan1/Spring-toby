@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.wan.tobi;
 
 import javax.sql.DataSource;
 
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-import com.example.demo.user.dao.UserDao;
+import com.wan.tobi.user.dao.UserDao;
 
 
 @Configuration

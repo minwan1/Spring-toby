@@ -21,7 +21,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.example.demo.user.dao.UserDao;
+import com.wan.tobi.DaoFactory;
+import com.wan.tobi.user.dao.UserDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations="/ApplicationContext.xml")
