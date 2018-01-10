@@ -12,6 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.wan.tobi.JdbcContext;
 import com.wan.tobi.user.User;
 
+/**
+ * 
+ * @author wan
+ * 클라이언트 역활을함 (콜백/템플릿)
+ * 클라이언트 -> 템플릿 -> 콜백
+ */
 public class UserDao {
 	
 	
@@ -20,8 +26,9 @@ public class UserDao {
 
 	
 	public void deleteAll() throws SQLException {
-
+ 
 		jdbcContext.workWithStatementStrategy(new StatementStrategy() {
+			//콜백 메소드 역활
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
 				return c.prepareStatement("delete from users");
@@ -32,6 +39,8 @@ public class UserDao {
 	public void add(User user) throws SQLException {
 		
 		jdbcContext.workWithStatementStrategy(new StatementStrategy() {
+			
+			//콜백 메소드 역활
 			@Override
 			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
 				PreparedStatement ps = c.prepareStatement("insert into users(id,name,password) values(?,?,?)");
