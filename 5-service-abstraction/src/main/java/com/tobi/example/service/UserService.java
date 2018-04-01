@@ -1,11 +1,8 @@
 package com.tobi.example.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.tobi.example.Level;
-import com.tobi.example.User;
+import com.tobi.example.domain.User;
 import com.tobi.example.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,6 +10,8 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
+    public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
+    public static final int MIN_RECCOMEND_FOR_GOLD = 30;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -33,32 +32,28 @@ public class UserService {
 
 
     @Transactional
-    public List<User> upgradeLevels(){
+    public void upgradeLevels(){
         List<User> users = (List<User>) userRepository.findAll();
         for(User user : users){
-            boolean changed = false;
+            if(canUpgradeLevel(user))
+                upgradeLevel(user);
 
-            if(user.getLevel() == Level.BASIC &&user.getLogin() >= 50){
-                user.updateLevel(Level.SILVER);
-                changed = true;
-            }
-            else if(user.getLevel() == Level.SILVER &&user.getLogin() >= 30){
-                user.updateLevel(Level.SILVER);
-                changed = true;
-            }else if(user.getLevel() == Level.SILVER){
-                changed = false;
-            }else{
-                changed = false;
-            }
-
-            if(changed){
-                userRepository.save(users);
-            }
         }
-
-        return users;
     }
 
+    private boolean canUpgradeLevel(User user){
+        Level currentLevel = user.getLevel();
+        switch (currentLevel){
+            case BASIC: return (user.getLogin() >= MIN_LOGCOUNT_FOR_SILVER);
+            case SILVER: return (user.getRecommend() >= MIN_RECCOMEND_FOR_GOLD);
+            case GOLD: return false;
+            default: throw new IllegalArgumentException("Unknown Level");
+        }
+    }
 
+    private void upgradeLevel(User user){
+        user.updateLevel();
+        userRepository.save(user);
+    }
 
 }

@@ -1,9 +1,9 @@
 package com.tobi.example;
 
+import com.tobi.example.domain.User;
 import com.tobi.example.repository.UserRepository;
 import com.tobi.example.service.UserService;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class UserDaoTest {
                 .level(Level.BASIC)
                 .login(1)
                 .name("test")
-                .recommed(1)
+                .recommend(1)
                 .build();
     }
 
@@ -68,6 +68,6 @@ public class UserDaoTest {
     private void checkSameUser(User user, User user1) {
         Assert.assertThat(user.getId(), CoreMatchers.is(user1.getId()));
         Assert.assertThat(user.getLevel(), CoreMatchers.is(user1.getLevel()));
-        Assert.assertThat(user.getRecommed(), CoreMatchers.is(user1.getRecommed()));
+        Assert.assertThat(user.getRecommend(), CoreMatchers.is(user1.getRecommend()));
     }
 }
