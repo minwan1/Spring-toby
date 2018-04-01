@@ -20,8 +20,8 @@ public class UserService {
     @Transactional
     public User updateUserName(User user){
 
-        User pstuser = userRepository.findOne(user.getId());
-        pstuser.updateName(user.getName());
+        User pstUser = userRepository.findOne(user.getId());
+        pstUser.updateName(user.getName());
         return user;
     }
 
@@ -37,7 +37,6 @@ public class UserService {
         for(User user : users){
             if(canUpgradeLevel(user))
                 upgradeLevel(user);
-
         }
     }
 
