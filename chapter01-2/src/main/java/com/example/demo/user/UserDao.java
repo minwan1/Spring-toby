@@ -3,7 +3,7 @@ package com.example.demo.user;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = getConnection();
 
@@ -16,11 +16,6 @@ public class UserDao {
 
         ps.close();
         c.close();
-    }
-
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:tcp://localhost:9092/mem:testdb;MVCC=TRUE", "sa", "");
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
@@ -43,4 +38,11 @@ public class UserDao {
 
         return user;
     }
+
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
+
+//    public abstract Connection getConnection() throws ClassNotFoundException, SQLException {
+//        Class.forName("org.h2.Driver");
+//        return DriverManager.getConnection("jdbc:h2:tcp://localhost:9092/mem:testdb;MVCC=TRUE", "sa", "");
+//    }
 }
