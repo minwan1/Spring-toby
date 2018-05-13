@@ -10,8 +10,10 @@ public class UserDao {
 
     private ConnectionMaker simpleConnectionMaker;
 
-    public UserDao() {
-        this.simpleConnectionMaker = new SimpleConnectionMaker();
+    //ConnectionMaker 의 역할만 할 수 있다면 어떤 클래스가 들어와도 됨!
+
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.simpleConnectionMaker = connectionMaker;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {

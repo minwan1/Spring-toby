@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.connection.ConnectionMaker;
+import com.example.demo.connection.DConnectionMaker;
 import com.example.demo.user.User;
 import com.example.demo.user.UserDao;
 
@@ -8,7 +10,8 @@ import java.sql.SQLException;
 public class UserDaoTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UserDao dao = new UserDao();
+        ConnectionMaker connectionMaker = new DConnectionMaker();
+        UserDao dao = new UserDao(connectionMaker);
 
         User user = new User();
         user.setId("whiteship");
