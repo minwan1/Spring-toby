@@ -18,15 +18,15 @@ public class User {
     private String id;
     private String name;
     private Level level;
-    private int login;
+    private int loginCount;
     private int recommend;
 
 
     @Builder
-    public User(String id, Level level, int login, int recommend, String name) {
+    public User(String id, Level level, int loginCount, int recommend, String name) {
         this.id = id;
         this.level = level;
-        this.login = login;
+        this.loginCount = loginCount;
         this.recommend = recommend;
         this.name = name;
     }

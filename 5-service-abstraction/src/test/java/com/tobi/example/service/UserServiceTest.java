@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.tobi.example.service.UserService.MIN_LOGCOUNT_FOR_SILVER;
 import static com.tobi.example.service.UserService.MIN_RECCOMEND_FOR_GOLD;
+import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(SpringRunner.class)
@@ -54,12 +57,46 @@ public class UserServiceTest {
         checkLevel(users.get(4), false);
     }
 
+    @Test
+    public void upgradeAllOrNothing() {
+
+        UserService testUserService = new TestUserService(userRepository, users.get(3).getId());
+        for(User user :users) userRepository.save(user);
+
+        try {
+
+            testUserService.upgradeLevels();
+            fail("TestUserServiceException expected");
+
+        }catch (TestUserServiceException e){
+            System.out.println("zxcv");
+
+        }
+        checkLevel(users.get(1), false);
+    }
+
     private void checkLevel(User user, boolean upgraded) {
         User userUpdate = userRepository.findOne(user.getId());
         if(upgraded)
             Assert.assertThat(userUpdate.getLevel(), is(user.getLevel().nextLevel()));
         else
             Assert.assertThat(userUpdate.getLevel(), is(user.getLevel()));
+    }
 
+    public void test(){
+        Connection c = dataSource.getConnection();
+
+        c.setAutoCommit(false);
+        try {
+            PreparedStatement st1 = c.prepareStatement("update users ...");
+            st1.addBatch();
+
+            PreparedStatement st2 = c.prepareStatement("delete users ...");
+
+            c.commit(); //--> 트랜잭션 커밋
+        }catch (Exception e){
+            c.rollback();
+        }
+        c.close();
     }
 }

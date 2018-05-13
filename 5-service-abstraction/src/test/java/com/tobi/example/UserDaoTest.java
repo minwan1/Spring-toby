@@ -34,7 +34,7 @@ public class UserDaoTest {
         user = new User().builder()
                 .id("test")
                 .level(Level.BASIC)
-                .login(1)
+                .loginCount(1)
                 .name("test")
                 .recommend(1)
                 .build();

@@ -7,7 +7,7 @@ public class UserDao {
         return new User().builder()
                 .id("test")
                 .level(Level.BASIC)
-                .login(1)
+                .loginCount(1)
                 .recommend(1)
                 .build();
     }

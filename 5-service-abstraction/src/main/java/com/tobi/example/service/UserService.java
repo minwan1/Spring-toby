@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserService {
 
-    private UserRepository userRepository;
+    protected UserRepository userRepository;
     public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
     public static final int MIN_RECCOMEND_FOR_GOLD = 30;
 
@@ -43,15 +43,16 @@ public class UserService {
     private boolean canUpgradeLevel(User user){
         Level currentLevel = user.getLevel();
         switch (currentLevel){
-            case BASIC: return (user.getLogin() >= MIN_LOGCOUNT_FOR_SILVER);
+            case BASIC: return (user.getLoginCount() >= MIN_LOGCOUNT_FOR_SILVER);
             case SILVER: return (user.getRecommend() >= MIN_RECCOMEND_FOR_GOLD);
             case GOLD: return false;
             default: throw new IllegalArgumentException("Unknown Level");
         }
     }
 
-    private void upgradeLevel(User user){
+    protected void upgradeLevel(User user){
         user.updateLevel();
+        if(user.getId().equals("test4")) throw new TestUserServiceException();
         userRepository.save(user);
     }
 
