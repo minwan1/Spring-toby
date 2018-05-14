@@ -2,22 +2,21 @@ package com.example.demo.user;
 
 
 import com.example.demo.connection.ConnectionMaker;
-import com.example.demo.connection.SimpleConnectionMaker;
 
 import java.sql.*;
 
 public class UserDao {
 
-    private ConnectionMaker simpleConnectionMaker;
+    private ConnectionMaker connectionMaker;
 
     //ConnectionMaker 의 역할만 할 수 있다면 어떤 클래스가 들어와도 됨!
 
     public UserDao(ConnectionMaker connectionMaker) {
-        this.simpleConnectionMaker = connectionMaker;
+        this.connectionMaker = connectionMaker;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.makeConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values (?, ?, ?)");
         ps.setString(1, user.getId());
@@ -31,7 +30,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.makeConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
