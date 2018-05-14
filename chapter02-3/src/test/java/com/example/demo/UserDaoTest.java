@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.SQLException;
@@ -28,8 +29,8 @@ public class UserDaoTest {
     public void addAndGet() throws ClassNotFoundException, SQLException {
         final UserDao dao = applicationContext.getBean("userDao",UserDao.class);
 
-        User user1 = new User("gyumee", "박성철", "springno1");
-        User user2 = new User("leegw700", "이길원", "springno2");
+        final User user1 = new User("gyumee", "박성철", "springno1");
+        final User user2 = new User("leegw700", "이길원", "springno2");
 
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
@@ -46,8 +47,16 @@ public class UserDaoTest {
         assertThat(userget2.getName(), is(user2.getName()));
         assertThat(userget2.getPassword(), is(user2.getPassword()));
 
+    }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void getUserFailure() throws SQLException, ClassNotFoundException {
+        final UserDao dao = applicationContext.getBean("userDao",UserDao.class);
 
+        dao.deleteAll();
+        assertThat(dao.getCount(), is(0));
+
+        dao.get("unkonw_id");
 
     }
 
