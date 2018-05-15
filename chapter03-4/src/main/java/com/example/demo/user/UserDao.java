@@ -13,8 +13,6 @@ public class UserDao {
     private DataSource dataSource;
     private JdbcContext jdbcContext;
 
-    //ConnectionMaker 의 역할만 할 수 있다면 어떤 클래스가 들어와도 됨!
-
     public UserDao(JdbcContext jdbcContext,DataSource dataSource) {
         this.jdbcContext = jdbcContext;
         this.dataSource = dataSource;
