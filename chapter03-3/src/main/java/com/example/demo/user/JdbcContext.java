@@ -60,7 +60,7 @@ public class JdbcContext {
             @Override
             public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
                 return c.prepareStatement("delete from users");
-
+            }
         });
     }
 
