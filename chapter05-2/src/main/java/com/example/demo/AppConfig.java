@@ -8,6 +8,8 @@ import com.example.demo.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -29,7 +31,12 @@ public class AppConfig {
 
     @Bean
     public UserService userService() throws ClassNotFoundException {
-        return new UserService(userDao(), dataSource);
+        return new UserService(userDao(), platformTransactionManager());
+    }
+
+    @Bean
+    public PlatformTransactionManager platformTransactionManager(){
+        return new DataSourceTransactionManager(dataSource);
     }
 
 

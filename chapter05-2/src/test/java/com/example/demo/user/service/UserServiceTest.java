@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -31,6 +32,8 @@ public class UserServiceTest {
     private UserDao dao;
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
 
     private List<User> users;
@@ -94,7 +97,7 @@ public class UserServiceTest {
 
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.dao);
-        testUserService.setDataSource(dataSource);
+        testUserService.setTransactionManager(transactionManager);
 
         dao.deleteAll();
 
