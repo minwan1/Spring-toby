@@ -130,13 +130,6 @@ public class UserServiceImplTest {
         testUserService.setUserDao(dao);
         testUserService.setMailSender(mailSender);
 
-//        TransactionHandler transactionHandler = new TransactionHandler();
-//        transactionHandler.setTarget(testUserService);
-//        transactionHandler.setTransactionManager(platformTransactionManager);
-//        transactionHandler.setPattern("upgradeLevels");
-
-        //UserService를 타기 위해서는 무조건 transactionHandler의 invoke메소드를 탄다.
-
         TxProxyFactoryBean txProxyFactoryBean = context.getBean("&userService", TxProxyFactoryBean.class);
         txProxyFactoryBean.setTarget(testUserService);
 

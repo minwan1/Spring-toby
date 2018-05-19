@@ -6,10 +6,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.lang.reflect.Proxy;
 
 public class TxProxyFactoryBean implements FactoryBean<Object> {
-    Object target;
-    PlatformTransactionManager platformTransactionManager;
-    String pattern;
-    Class<?> serviceInterface;
+    private Object target;
+    private PlatformTransactionManager platformTransactionManager;
+    private String pattern;
+    private Class<?> serviceInterface;
 
     public TxProxyFactoryBean(Object target, PlatformTransactionManager platformTransactionManager, String pattern, Class<?> serviceInterface) {
         this.target = target;

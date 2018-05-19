@@ -5,12 +5,10 @@ import com.example.demo.connection.DConnentionMaker;
 import com.example.demo.mail.DummyMailService;
 import com.example.demo.message.MessageFactoryBean;
 import com.example.demo.transaction.TxProxyFactoryBean;
-import com.example.demo.user.User;
 import com.example.demo.user.repository.UserDaoJdbc;
 import com.example.demo.user.repository.UserDao;
 import com.example.demo.user.service.UserService;
 import com.example.demo.user.service.UserServiceImpl;
-import com.example.demo.user.service.UserServiceTx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,11 +33,6 @@ public class AppConfig {
     public ConnectionMaker connectionMaker(){
         return new DConnentionMaker();
     }
-
-//    @Bean
-//    public UserService userService() throws ClassNotFoundException {
-//        return new UserServiceTx(userServiceImpl(), platformTransactionManager());
-//    }
 
     @Bean
     public UserServiceImpl userServiceImpl() throws ClassNotFoundException {
