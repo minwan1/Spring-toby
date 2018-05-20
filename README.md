@@ -10,10 +10,10 @@
 
 
 ##  프로젝트 실행환경
-Lombok이 반드시 설치 되있어야 합니다.
-Eclipse 설치 : [lombok] eclipse(STS)에 lombok(롬복) 설치
-Intell J 설치 : [Intellij] lombok 사용하기
-예제 2.3 까지는 H2 프록제트를 다운받으셔서 해당프로젝트를 먼저 실행시키고 예제프록제트를 실행시키셔야합니다.
+Lombok이 반드시 설치 되있어야 합니다.<br>
+* Eclipse 설치 : [lombok] eclipse(STS)에 lombok(롬복) 설치
+* Intell J 설치 : [Intellij] lombok 사용하기
+* 예제 2.3 까지는 H2 프록제트를 다운받으셔서 해당프로젝트를 먼저 실행시키고 예제프록제트를 실행시키셔야합니다.
 
 
 
