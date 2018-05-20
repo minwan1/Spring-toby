@@ -4,6 +4,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.junit.Test;
 import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.support.NameMatchMethodPointcut;
 
 import java.lang.reflect.Proxy;
 
@@ -14,7 +16,7 @@ public class DynamicProxyTest {
 
 
     @Test
-    public void simpleProxy() {
+    public void simpleProxy() { // Spring jdk 프록시 빈 생성
         final Hello hello =  (Hello) Proxy.newProxyInstance(getClass().getClassLoader()
                 ,new Class[]{Hello.class}
                 ,new UppercaseHandler(new HelloTarget())
@@ -27,7 +29,7 @@ public class DynamicProxyTest {
     }
 
     @Test
-    public void proxyFactoryBean() {
+    public void proxyFactoryBean() { // Spring 팩토리 빈 생성
 
         ProxyFactoryBean pfBean = new ProxyFactoryBean();
         pfBean.setTarget(new HelloTarget());
@@ -40,6 +42,23 @@ public class DynamicProxyTest {
         assertThat(proxyHello.sayThankYou("Toby"), is("THANK YOU TOBY"));
     }
 
+    @Test
+    public void pointcutAdvisor() { // Spring 팩토리 빈 생성
+
+        ProxyFactoryBean pfBean = new ProxyFactoryBean();
+        pfBean.setTarget(new HelloTarget());
+
+        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+        pointcut.setMappedName("sayH*");
+
+        pfBean.addAdvisor(new DefaultPointcutAdvisor(pointcut, new UppercaseAdvice()));
+
+        Hello proxyHello = (Hello) pfBean.getObject();
+
+        assertThat(proxyHello.sayHello("Toby"), is("HELLO TOBY"));
+        assertThat(proxyHello.sayHi("Toby"), is("HI TOBY"));
+        assertThat(proxyHello.sayThankYou("Toby"), is("Thank You Toby"));
+    }
 
     static class UppercaseAdvice implements MethodInterceptor{
         @Override
@@ -48,4 +67,5 @@ public class DynamicProxyTest {
             return ret.toUpperCase();
         }
     }
+
 }
