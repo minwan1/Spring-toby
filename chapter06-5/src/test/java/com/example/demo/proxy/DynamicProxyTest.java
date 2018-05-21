@@ -3,6 +3,8 @@ package com.example.demo.proxy;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.junit.Test;
+import org.springframework.aop.ClassFilter;
+import org.springframework.aop.Pointcut;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
@@ -16,6 +18,51 @@ public class DynamicProxyTest {
 
 
     @Test
+    public void classNamePointcutAdvisorTest() {
+
+        NameMatchMethodPointcut classMethodPointcut = new NameMatchMethodPointcut() {
+            public ClassFilter getClassFilter() {
+                return new ClassFilter() {
+                    @Override
+                    public boolean matches(Class<?> clazz) {
+                        return clazz.getSimpleName().startsWith("HelloT");
+                    }
+                };
+            }
+        };
+
+        classMethodPointcut.setMappedName("sayH*");
+
+        checkAdviced(new HelloTarget(), classMethodPointcut, true);
+
+        class HelloWorld extends HelloTarget {};
+        checkAdviced(new HelloWorld(), classMethodPointcut, false);
+
+        class HelloToby extends HelloTarget {};
+        checkAdviced(new HelloToby(), classMethodPointcut, true);
+    }
+
+    private void checkAdviced(Object target, Pointcut pointcut, boolean adviced) {
+        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
+        proxyFactoryBean.setTarget(target);
+        proxyFactoryBean.addAdvisor(new DefaultPointcutAdvisor(pointcut, new UppercaseAdvice()));
+
+        Hello proxyHello = (Hello)proxyFactoryBean.getObject();
+
+        if (adviced) {
+            assertThat(proxyHello.sayHello("Toby"), is("HELLO TOBY"));
+            assertThat(proxyHello.sayHi("Toby"), is("HI TOBY"));
+            assertThat(proxyHello.sayThankYou("Toby"), is("Thank You Toby"));
+        } else {
+            assertThat(proxyHello.sayHello("Toby"), is("Hello Toby"));
+            assertThat(proxyHello.sayHi("Toby"), is("Hi Toby"));
+            assertThat(proxyHello.sayThankYou("Toby"), is("Thank You Toby"));
+        }
+    }
+
+
+
+    @Test
     public void simpleProxy() { // Spring jdk 프록시 빈 생성
         final Hello hello =  (Hello) Proxy.newProxyInstance(getClass().getClassLoader()
                 ,new Class[]{Hello.class}
@@ -25,7 +72,6 @@ public class DynamicProxyTest {
         assertThat(hello.sayHello("Toby"), is("HELLO TOBY"));
         assertThat(hello.sayHi("Toby"), is("HI TOBY"));
         assertThat(hello.sayThankYou("Toby"), is("THANK YOU TOBY"));
-
     }
 
     @Test
