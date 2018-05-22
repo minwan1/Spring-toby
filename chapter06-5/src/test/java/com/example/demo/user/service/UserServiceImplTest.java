@@ -1,7 +1,5 @@
 package com.example.demo.user.service;
 
-import com.example.demo.transaction.TransactionHandler;
-import com.example.demo.transaction.TxProxyFactoryBean;
 import com.example.demo.user.Level;
 import com.example.demo.user.User;
 import com.example.demo.user.repository.UserDao;
@@ -20,8 +18,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import java.lang.reflect.Proxy;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,21 +34,10 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class UserServiceImplTest {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserDao dao;
-    @Autowired
-    private MailSender mailSender;
-    @Autowired
-    private PlatformTransactionManager platformTransactionManager;
 
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-
-    @Autowired
-    private ApplicationContext context;
-
+    @Autowired private UserService userService;
+    @Autowired private UserDao dao;
+    @Autowired private UserService testUserService;
 
     private List<User> users;
 
@@ -127,22 +112,13 @@ public class UserServiceImplTest {
     @DirtiesContext // 해당 메소드 진행후 spring context 재생성
     public void upgradeAllOrNothing() throws Exception {
 
-        UserServiceImpl testUserService = new TestUserService(users.get(3).getId());
-        testUserService.setUserDao(dao);
-        testUserService.setMailSender(mailSender);
-
-        ProxyFactoryBean txProxyFactoryBean = context.getBean("&userService", ProxyFactoryBean.class);
-        txProxyFactoryBean.setTarget(testUserService);
-
-        UserService userServiceTx = (UserService) txProxyFactoryBean.getObject();
-
         dao.deleteAll();
         for(User user : users) dao.add(user);
 
         try {
-            userServiceTx.upgradeLevels();
+            testUserService.upgradeLevels();
             fail("TestUserServiceException expected");
-        }catch(TestUserServiceException e){
+        }catch(TestUserServiceImpl.TestUserServiceException e){
         }
 
         checkLevel(users.get(1),false);
@@ -158,24 +134,6 @@ public class UserServiceImplTest {
         }
     }
 
-    static class TestUserService extends UserServiceImpl {
-        private String id;
-
-        private TestUserService(String id) {
-            super(null, null);
-            this.id = id;
-        }
-
-        protected void upgradeLevel(User user) {
-            if (user.getId().equals(this.id)) {
-                throw new TestUserServiceException();
-            }
-            super.upgradeLevel(user);
-        }
-    }
-
-    static class TestUserServiceException extends RuntimeException {
-    }
 
     static class MockMailSender implements MailSender {
 

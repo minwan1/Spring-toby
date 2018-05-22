@@ -1,4 +1,4 @@
-package com.example.demo.proxy;
+package com.example.demo.proxy.example;
 
 public class HelloUppercase implements Hello{
     private Hello hello;
