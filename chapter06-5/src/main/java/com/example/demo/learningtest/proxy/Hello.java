@@ -1,4 +1,4 @@
-package com.example.demo.proxy.example;
+package com.example.demo.learningtest.proxy;
 
 public interface Hello {
     String sayHello(String name);

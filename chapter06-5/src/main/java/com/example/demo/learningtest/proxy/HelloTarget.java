@@ -1,4 +1,4 @@
-package com.example.demo.proxy.example;
+package com.example.demo.learningtest.proxy;
 
 public class HelloTarget implements Hello{
     @Override

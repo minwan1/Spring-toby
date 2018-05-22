@@ -18,6 +18,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +60,12 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void upgradeLevels() throws Exception {
+    public void advisorAutoProxyCreator() {
+        assertThat(testUserService instanceof Proxy, is(true));
+    }
+
+    @Test
+    public void upgradeLevels() {
 
         //given
         UserDao mockUserDao = mock(UserDao.class);
@@ -91,7 +97,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testAdd() throws Exception {
+    public void testAdd() {
         dao.deleteAll();
 
         User userWithLevel = users.get(4);
@@ -110,7 +116,7 @@ public class UserServiceImplTest {
 
     @Test
     @DirtiesContext // 해당 메소드 진행후 spring context 재생성
-    public void upgradeAllOrNothing() throws Exception {
+    public void upgradeAllOrNothing() {
 
         dao.deleteAll();
         for(User user : users) dao.add(user);

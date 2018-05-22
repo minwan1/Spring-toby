@@ -1,8 +1,8 @@
 package com.example.demo.proxy;
 
-import com.example.demo.proxy.example.Hello;
-import com.example.demo.proxy.example.HelloTarget;
-import com.example.demo.proxy.example.UppercaseHandler;
+import com.example.demo.learningtest.proxy.Hello;
+import com.example.demo.learningtest.proxy.HelloTarget;
+import com.example.demo.learningtest.proxy.UppercaseHandler;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.junit.Test;
