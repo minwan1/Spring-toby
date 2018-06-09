@@ -4,6 +4,8 @@ import com.example.demo.user.User;
 import com.example.demo.user.repository.UserDao;
 import org.springframework.mail.MailSender;
 
+import java.util.List;
+
 public class TestUserService extends UserServiceImpl{
     private String id = "madnite1";
 
@@ -18,5 +20,12 @@ public class TestUserService extends UserServiceImpl{
     }
 
     static class TestUserServiceException extends RuntimeException {
+    }
+
+    public List<User> getAll(){
+        for(User user : super.getAll()){
+            super.update(user);
+        }
+        return null;
     }
 }

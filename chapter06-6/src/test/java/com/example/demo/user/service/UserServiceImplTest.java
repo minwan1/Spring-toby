@@ -130,6 +130,11 @@ public class UserServiceImplTest {
         checkLevel(users.get(1),false);
     }
 
+    @Test
+    public void readOnlyTransactionAttribute() {
+        testUserService.getAll();
+    }
+
     private void checkLevel(User user, boolean upgraded) {
         User userUpdate = dao.get(user.getId());
 

@@ -18,8 +18,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.mail.MailSender;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 public class AppConfig {
@@ -53,14 +55,22 @@ public class AppConfig {
     }
 
     @Bean //기능
-    public TransactionAdvice transactionAdvice(){
-        return new TransactionAdvice(platformTransactionManager());
+    public TransactionInterceptor transactionAdvice(){
+        Properties properties = new Properties();
+        properties.setProperty("get*","PROPAGATION_REQUIRED, readOnly,timeout_30");
+        properties.setProperty("upgrade*","PROPAGATION_REQUIRES_NEW,ISOLATION_SERIALIZABLE");
+        properties.setProperty("*","PROPAGATION_REQUIRED");
+
+        TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+        transactionInterceptor.setTransactionAttributes(properties);
+        transactionInterceptor.setTransactionManager(platformTransactionManager());
+        return transactionInterceptor;
     }
 
     @Bean // 포인트컷 위치
     public AspectJExpressionPointcut transactionPointcut(){
         AspectJExpressionPointcut aspectJExpressionPointcut = new AspectJExpressionPointcut();
-        aspectJExpressionPointcut.setExpression("execution(* *..*ServiceImpl.upgrade*(..))");
+        aspectJExpressionPointcut.setExpression("execution(* com.example.demo.user.service.*Service.*(..))");
         return aspectJExpressionPointcut;
     }
 
