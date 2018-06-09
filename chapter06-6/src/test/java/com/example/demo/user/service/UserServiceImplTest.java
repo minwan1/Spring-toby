@@ -124,7 +124,7 @@ public class UserServiceImplTest {
         try {
             testUserService.upgradeLevels();
             fail("TestUserServiceException expected");
-        }catch(TestUserServiceImpl.TestUserServiceException e){
+        }catch(TestUserService.TestUserServiceException e){
         }
 
         checkLevel(users.get(1),false);

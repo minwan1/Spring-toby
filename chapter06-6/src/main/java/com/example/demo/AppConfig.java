@@ -43,10 +43,6 @@ public class AppConfig {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean
-    public TransactionAdvice transactionAdvice(){
-        return new TransactionAdvice(platformTransactionManager());
-    }
 
     @Bean
     public DefaultPointcutAdvisor transactionAdvisor(){
@@ -56,14 +52,19 @@ public class AppConfig {
         return defaultPointcutAdvisor;
     }
 
-    @Bean
+    @Bean //기능
+    public TransactionAdvice transactionAdvice(){
+        return new TransactionAdvice(platformTransactionManager());
+    }
+
+    @Bean // 포인트컷 위치
     public AspectJExpressionPointcut transactionPointcut(){
         AspectJExpressionPointcut aspectJExpressionPointcut = new AspectJExpressionPointcut();
         aspectJExpressionPointcut.setExpression("execution(* *..*ServiceImpl.upgrade*(..))");
         return aspectJExpressionPointcut;
     }
 
-    @Bean
+    @Bean //
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
         return new DefaultAdvisorAutoProxyCreator();
     }
