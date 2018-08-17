@@ -20,12 +20,12 @@ Chapter 02-3 까지는 H2 프로젝트를 다운받으셔서 해당프로젝트�
 
 ## 책 정리 내용
 
-1. [오브젝트와 의존관계]()
-2. [테스트]()
-3. [템플릿]()
-4. [예외]()
-5. [서비스 추상화]()
-6. [AOP]()
+1. [오브젝트와 의존관계](https://github.com/minwan1/Spring-toby/blob/master/chapter-summary/Chapter-01.md)
+2. [테스트](https://github.com/minwan1/Spring-toby/blob/master/chapter-summary/Chapter-02.md)
+3. [템플릿](https://github.com/minwan1/Spring-toby/blob/master/chapter-summary/Chapter-03.md)
+4. [예외](https://github.com/minwan1/Spring-toby/blob/master/chapter-summary/Chapter-04.md)
+5. [서비스 추상화](https://github.com/minwan1/Spring-toby/blob/master/chapter-summary/Chapter-05.md)
+6. [AOP](https://github.com/minwan1/Spring-toby/blob/master/chapter-summary/Chapter-06.md)
 
 ## 실행
 ```
